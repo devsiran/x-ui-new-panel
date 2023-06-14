@@ -8,7 +8,12 @@ global $uriMostaghim;
 global $uriNimBaha;
 global $pre_mark_connection;
 global $panelAddress;
+global $xuiaddress;
+global $serverName;
 
+$serverName = "VPN";
+
+$xuiaddress = "{xui-address}";
 $adminPage = "index.php";
 
 $panelAddress = "{xuiPanel:Port}";

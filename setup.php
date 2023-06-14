@@ -119,7 +119,7 @@ if(str_contains($conf,"{adminPassword}") || str_contains($conf,"{xui-address}"))
                         <hr>
                         <form action="" method="post">
                             <small class="text-black-50">x-ui Folder Address</small>
-                            <input name="xuifolderaddress" type="text" class="form-control form-control-sm" placeholder="ex: /x-ui/" value="/x-ui/">
+                            <input name="xuifolderaddress" type="text" class="form-control form-control-sm" placeholder="ex: /xui/" value="/xui/">
                             <br>
                             <small class="text-black-50">x-ui admin password</small>
                             <input name="adminPassword" type="password" class="form-control form-control-sm" placeholder="ex: 1234">

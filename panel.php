@@ -193,9 +193,10 @@ function getUsers(){
     global $uriMostaghim;
     global $uriNimBaha;
     global $pre_mark_connection;
+    global $xuiaddress;
     
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://' . $panelAddress . '/xui/inbound/list');
+    curl_setopt($ch, CURLOPT_URL, 'https://' . $panelAddress . $xuiaddress . 'inbound/list');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
@@ -208,7 +209,7 @@ function getUsers(){
     $headers[] = 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8';
     $headers[] = $panelCookie;
     $headers[] = 'Origin: https://' . $panelAddress;
-    $headers[] = 'Referer: https://' . $panelAddress . '/xui/inbounds';
+    $headers[] = 'Referer: https://' . $panelAddress . $xuiaddress . 'inbounds';
     $headers[] = 'Sec-Fetch-Dest: empty';
     $headers[] = 'Sec-Fetch-Mode: cors';
     $headers[] = 'Sec-Fetch-Site: same-origin';
@@ -246,12 +247,13 @@ function addUser($remark,$password,$port,$expire,$traffic=0){
     global $uriMostaghim;
     global $uriNimBaha;
     global $pre_mark_connection;
+    global $xuiaddress;
     
     $ch = curl_init();
     
     $traffic = (intval($traffic * (1024*1024*1024)));
 
-    curl_setopt($ch, CURLOPT_URL, 'https://' . $panelAddress . '/xui/inbound/add');
+    curl_setopt($ch, CURLOPT_URL, 'https://' . $panelAddress . $xuiaddress . 'inbound/add');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, "up=0&down=0&total=$traffic&remark=$remark&enable=true&expiryTime=" . (strtotime("+" . $expire . " days")*1000) . "&listen=&port=$port&protocol=trojan&settings={\"clients\": [ {\"password\": \"$password\", \"flow\": \"xtls-rprx-direct\"}],\"fallbacks\": []}&streamSettings={\n  \"network\": \"tcp\",\n  \"security\": \"tls\",\n  \"tlsSettings\": {\n    \"serverName\": \"\",\n    \"certificates\": [\n      {\n        \"certificateFile\": \"/root/cert.crt\",\n        \"keyFile\": \"/root/private.key\"\n      }\n    ],\n    \"alpn\": []\n  },\n  \"tcpSettings\": {\n    \"acceptProxyProtocol\": false,\n    \"header\": {\n      \"type\": \"none\"\n    }\n  }\n}&sniffing={\n  \"enabled\": true,\n  \"destOverride\": [\n    \"http\",\n    \"tls\"\n  ]\n}");
@@ -264,7 +266,7 @@ function addUser($remark,$password,$port,$expire,$traffic=0){
     $headers[] = 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8';
     $headers[] = $panelCookie;
     $headers[] = 'Origin: https://' . $panelAddress;
-    $headers[] = 'Referer: https://' . $panelAddress . '/xui/inbounds';
+    $headers[] = 'Referer: https://' . $panelAddress . $xuiaddress . 'inbounds';
     $headers[] = 'Sec-Fetch-Dest: empty';
     $headers[] = 'Sec-Fetch-Mode: cors';
     $headers[] = 'Sec-Fetch-Site: same-origin';
@@ -294,6 +296,7 @@ function updateUser($id,$enable,$expire,$traffic=-1){
     global $uriMostaghim;
     global $uriNimBaha;
     global $pre_mark_connection;
+    global $xuiaddress;
     
     
     $user = null;
@@ -327,7 +330,7 @@ function updateUser($id,$enable,$expire,$traffic=-1){
     
     
 
-    curl_setopt($ch, CURLOPT_URL, 'https://' . $panelAddress . '/xui/inbound/update/' . $id);
+    curl_setopt($ch, CURLOPT_URL, 'https://' . $panelAddress . $xuiaddress . 'inbound/update/' . $id);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, "up=" . $user->up . "&down=" . $user->down . "&total=" . $traffic . "&remark=" . $user->remark . "&enable=" . $enable . "&expiryTime=" . $expire . "&listen=&port=" . $user->port . "&protocol=trojan&settings={\"clients\": [ {\"password\": \"" . $user->remark . "\", \"flow\": \"xtls-rprx-direct\"}],\"fallbacks\": []}&streamSettings={\n  \"network\": \"tcp\",\n  \"security\": \"tls\",\n  \"tlsSettings\": {\n    \"serverName\": \"\",\n    \"certificates\": [\n      {\n        \"certificateFile\": \"/root/cert.crt\",\n        \"keyFile\": \"/root/private.key\"\n      }\n    ],\n    \"alpn\": []\n  },\n  \"tcpSettings\": {\n    \"acceptProxyProtocol\": false,\n    \"header\": {\n      \"type\": \"none\"\n    }\n  }\n}&sniffing={\n  \"enabled\": true,\n  \"destOverride\": [\n    \"http\",\n    \"tls\"\n  ]\n}");
@@ -340,7 +343,7 @@ function updateUser($id,$enable,$expire,$traffic=-1){
     $headers[] = 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8';
     $headers[] = $panelCookie;
     $headers[] = 'Origin: https://' . $panelAddress;
-    $headers[] = 'Referer: https://' . $panelAddress . '/xui/inbounds';
+    $headers[] = 'Referer: https://' . $panelAddress . $xuiaddress . 'inbounds';
     $headers[] = 'Sec-Fetch-Dest: empty';
     $headers[] = 'Sec-Fetch-Mode: cors';
     $headers[] = 'Sec-Fetch-Site: same-origin';
@@ -367,9 +370,10 @@ function deleteUser($id){
     global $uriMostaghim;
     global $uriNimBaha;
     global $pre_mark_connection;
+    global $xuiaddress;
     
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://' . $panelAddress . '/xui/inbound/del/' . $id);
+    curl_setopt($ch, CURLOPT_URL, 'https://' . $panelAddress . $xuiaddress . 'inbound/del/' . $id);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_ENCODING, 'gzip, deflate');
@@ -382,7 +386,7 @@ function deleteUser($id){
     $headers[] = 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8';
     $headers[] = $panelCookie;
     $headers[] = 'Origin: https://' . $panelAddress;
-    $headers[] = 'Referer: https://' . $panelAddress . '/xui/inbounds';
+    $headers[] = 'Referer: https://' . $panelAddress . $xuiaddress . 'inbounds';
     $headers[] = 'Sec-Fetch-Dest: empty';
     $headers[] = 'Sec-Fetch-Mode: cors';
     $headers[] = 'Sec-Fetch-Site: same-origin';
