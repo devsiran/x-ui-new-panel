@@ -554,6 +554,32 @@ foreach($myUsers as $mu){
                 <div class="card">
                     <div class="card-body">
                         <?php
+                        try{
+                            @session_start();
+                            $showNewVer = false;
+                            if(isset($_SESSION['isNewVer']) && $_SESSION['isNewVer']==true){
+                                $showNewVer = true;
+                            }
+                            else if(!isset($_SESSION['isNewVer'])){
+                                $lastver = file_get_contents("https://raw.githubusercontent.com/devsiran/x-ui-new-panel/main/ver.txt");
+                                $lastver = floatval($lastver);
+                                $curver = file_get_contents("ver.txt");
+                                $curver = floatval($curver);
+                                if($lastver>$curver){
+                                    $showNewVer = true;
+                                }
+                                $_SESSION['isNewVer'] = $showNewVer;
+                            }
+                            
+                            if($showNewVer == true){
+                                ?>
+                                <div class="alert alert-info">New Version Available > <a href="https://github.com/devsiran/x-ui-new-panel" target="_blank">https://github.com/devsiran/x-ui-new-panel</a></div>
+                                <?php
+                            }
+                        }
+                        catch (Exception $e){
+        
+                        }
                             foreach($logs as $l){
                                 echo '<div class="alert alert-' . $l[0] . '">' . $l[1] . '</div>';
                             }
