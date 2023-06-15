@@ -558,12 +558,22 @@ foreach($myUsers as $mu){
                                 echo '<div class="alert alert-' . $l[0] . '">' . $l[1] . '</div>';
                             }
                         ?>
-                        <div style="float:left"> 
+                        <!-- <div style="float:left"> 
                             <form method="post" action="<?php echo $adminPage; ?>" onsubmit="return confirm('مطمئنید؟')">
                                 <input type="hidden" name="restartServer" value="1">
                                 <button type="submit" class="btn text-white customBG btn-sm">ری استارت سرور</button>
                             </form>
+                        </div> -->
+                        <?php
+                            $cfiles = array_diff(scandir("./connections/"), array('.', '..'));
+                            if(count($cfiles)<2){
+                                ?>
+                        <div style="float:left"> 
+                            <a href="servinst.php" target="_blank" class="mx-2 btn text-white customBG btn-sm">نصب سیستم تحلیل آی پی</a>
                         </div>
+                                <?php
+                            }
+                        ?>
                         لیست کاربران
                         (<strong id="myusercount"></strong> / <?php echo $admins[$adusername][2]; ?>)
                         <hr>
